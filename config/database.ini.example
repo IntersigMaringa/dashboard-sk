@@ -1,0 +1,31 @@
+﻿# Exemplo de credenciais - copie para config/database.ini e preencha com valores reais
+# config/database.ini está no .gitignore e não deve ser commitado
+
+[dashboard]
+host = "SEU_HOST"
+user = "SEU_USUARIO"
+pass = "SUA_SENHA"
+name = "dashboard"
+charset = "utf8"
+
+[intersig]
+host = "localhost"
+user = "root"
+pass = "SUA_SENHA"
+name = "intersig"
+charset = "utf8"
+
+[fluxo]
+host = "SEU_HOST_FLUXO"
+user = "SEU_USUARIO"
+pass = "SUA_SENHA"
+charset = "utf8mb4"
+
+[fluxo_dbs]
+vendas_mesquita = "mesquita_vendas"
+financeiro_mesquita = "mesquita_financeiro"
+financeiro_jr = "jr_financeiro"
+publico_mesquita = "mesquita_publico"
+estoque_mesquita = "mesquita_estoque"
+vendas_jr = "jr_vendas"
+publico_jr = "jr_publico"

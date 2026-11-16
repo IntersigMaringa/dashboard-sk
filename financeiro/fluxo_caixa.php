@@ -15,11 +15,14 @@ $nome_usuario_logado = htmlspecialchars($_SESSION["user_name"]);
 $id_usuario_logado = (int) $_SESSION["user_id"];
 
 // 1. CONFIGURAÇÃO DE CONEXÃO
-$host = '192.168.8.3';
-$db   = 'mesquita_financeiro';
-$user = 'intersig';
-$pass = 'ewqiop2017';
-$charset = 'utf8mb4';
+require_once __DIR__ . '/../config/db_credentials.php';
+$dbFluxo = db_credentials('fluxo');
+$dbs = db_credentials('fluxo_dbs');
+$host = $dbFluxo['host'];
+$db   = $dbs['financeiro_mesquita'];
+$user = $dbFluxo['user'];
+$pass = $dbFluxo['pass'];
+$charset = isset($dbFluxo['charset']) ? $dbFluxo['charset'] : 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [

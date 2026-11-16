@@ -1,17 +1,22 @@
 <?php
 // ajax_get_notas.php
 
-// --- Conexão com o Banco de Dados (copie do seu arquivo principal) ---
-$servidor_vendas = '192.168.8.3';
-$usuario_vendas  = 'intersig';
-$senha_vendas    = 'ewqiop2017';
-$dbname_vendas   = 'mesquita_vendas';
+// --- Conexão com o Banco de Dados ---
+require_once __DIR__ . '/../config/db_credentials.php';
+$dbFluxo = db_credentials('fluxo');
+$dbs = db_credentials('fluxo_dbs');
+
+$servidor_vendas = $dbFluxo['host'];
+$usuario_vendas  = $dbFluxo['user'];
+$senha_vendas    = $dbFluxo['pass'];
+$dbname_vendas   = $dbs['vendas_mesquita'];
+$charset_vendas  = isset($dbFluxo['charset']) ? $dbFluxo['charset'] : 'utf8mb4';
 
 $dash_vendas = mysqli_connect($servidor_vendas, $usuario_vendas, $senha_vendas, $dbname_vendas);
 if (!$dash_vendas) {
     die("Falha na conexão com o banco de vendas: " . mysqli_connect_error());
 }
-mysqli_set_charset($dash_vendas, "utf8");
+mysqli_set_charset($dash_vendas, $charset_vendas);
 
 // --- Funções auxiliares (copie do seu arquivo principal) ---
 function convert_date_br_to_sql($date_input) {

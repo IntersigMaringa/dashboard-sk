@@ -106,6 +106,18 @@ $uf = isset($_GET['uf']) ? $_GET['uf'] : '';
 $operacao = $_GET['operacao'] ?? '';
 $vendedor_selecionado = $_GET['vendedor'] ?? '';
 
+$colunas_data = [
+    'data_cadastro' => 'o.data_cadastro',
+    'data_aprov'    => 'o.data_aprov',
+    'data_baixa'    => 'o.data_baixa',
+    'data_recad'    => 'o.data_recad',
+];
+$tipo_data = $_GET['tipo_data'] ?? 'data_cadastro';
+if (!isset($colunas_data[$tipo_data])) {
+    $tipo_data = 'data_cadastro';
+}
+$coluna_data = $colunas_data[$tipo_data];
+
 
 if (empty($data_inicio_raw) && empty($data_fim_raw) && empty($chave_mvto)) {
 $hoje = new DateTime();
@@ -133,6 +145,7 @@ if ($vendedor_selecionado) {
    
 $situacao = $_GET['situacao'] ?? '';
 if ($situacao) {
+ 
     $filtros_dinamicos[] = "o.situacao = ?";
     $params[] = $situacao;
 }
@@ -142,12 +155,19 @@ if ($chave_mvto) {
     $params[] = $chave_mvto;
 }
 if ($data_inicio) {
-    $filtros_dinamicos[] = "o.data_baixa >= ?";
+    $filtros_dinamicos[] = $tipo_data === 'data_recad'
+        ? "DATE(o.data_recad) >= ?"
+        : "{$coluna_data} >= ?";
     $params[] = $data_inicio;
 }
 
 if ($data_fim) {
-$filtros_dinamicos[] = "o.data_baixa <= ?"; $params[]=$data_fim; } $where="WHERE " . $condicoes_fixas; if
+    $filtros_dinamicos[] = $tipo_data === 'data_recad'
+        ? "DATE(o.data_recad) <= ?"
+        : "{$coluna_data} <= ?";
+    $params[] = $data_fim;
+}
+ $where="WHERE " . $condicoes_fixas; if
     (!empty($filtros_dinamicos)) { $where .=" AND " . implode(' AND ', $filtros_dinamicos);
 }
 
@@ -508,6 +528,17 @@ font-size: 12px;
                                                         placeholder="dd/mm/aaaa" maxlength="10">
                                                 </div>
 
+                                                <!-- Coluna do Tipo de Data -->
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Tipo de Data</label>
+                                                    <select name="tipo_data" class="select-filial form-control-sm">
+                                                        <option value="data_cadastro" <?= ($tipo_data == 'data_cadastro' ? 'selected' : '') ?>>Data Cadastro</option>
+                                                        <option value="data_aprov" <?= ($tipo_data == 'data_aprov' ? 'selected' : '') ?>>Data Aprovação</option>
+                                                        <option value="data_baixa" <?= ($tipo_data == 'data_baixa' ? 'selected' : '') ?>>Data Baixa</option>
+                                                        <option value="data_recad" <?= ($tipo_data == 'data_recad' ? 'selected' : '') ?>>Data Recadastro</option>
+                                                    </select>
+                                                </div>
+
                                                 <!-- Coluna da UF -->
                                                 <div class="col-md-2">
                                                     <label class="form-label">UF</label>
@@ -596,7 +627,7 @@ font-size: 12px;
                                                 <div class="col-md-2 d-flex gap-2">
                                                     <button type="submit"
                                                         class="btn btn-primary btn-sm-custom flex-grow-1">Filtrar</button>
-                                                    <?php if ($chave_mvto || $data_inicio_raw || $data_fim_raw || $filial || $situacao || $uf || $vendedor_selecionado): ?>
+                                                    <?php if ($chave_mvto || $data_inicio_raw || $data_fim_raw || $filial || $situacao || $uf || $vendedor_selecionado || $tipo_data !== 'data_cadastro'): ?>
                                                     <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>"
                                                         class="btn btn-outline-secondary btn-sm-custom flex-grow-1">Limpar</a>
                                                     <?php endif; ?>

@@ -1,35 +1,30 @@
-<?php 
-$servidor ="192.168.8.3";
-$usuario="intersig";
-$senha="ewqiop2017";
-$dbname="mesquita_publico";
-$dbname="mesquita_vendas";
-$dbname="mesquita_financeiro";
-$dbname="dashboard";
+<?php
+require_once __DIR__ . '/db_credentials.php';
+$dbFluxo = db_credentials('fluxo');
+$dbs = db_credentials('fluxo_dbs');
 
-$dbname="jr_publico";
-$dbname="jr_vendas";
-$dbname="jr_financeiro";
+$servidor = $dbFluxo['host'];
+$usuario  = $dbFluxo['user'];
+$senha    = $dbFluxo['pass'];
+$charset  = isset($dbFluxo['charset']) ? $dbFluxo['charset'] : 'utf8mb4';
 
-
-$prefixe = 'mesquita_estoque';
-$prefixp = 'mesquita_publico';
-$prefixv = 'mesquita_vendas';
-$prefixf = 'mesquita_financeiro';
+$prefixe = $dbs['estoque_mesquita'];
+$prefixp = $dbs['publico_mesquita'];
+$prefixv = $dbs['vendas_mesquita'];
+$prefixf = $dbs['financeiro_mesquita'];
 $prefixd = 'dashboard';
 
+$prefixjrp = $dbs['publico_jr'];
+$prefixjrv = $dbs['vendas_jr'];
+$prefixjrf = $dbs['financeiro_jr'];
 
-$prefixjrp = 'jr_publico';
-$prefixjrv = 'jr_vendas';
-$prefixjrf = 'jr_financeiro';
+$dbname = $prefixjrf;
 
-
-$conexao=mysqli_connect($servidor, $usuario, $senha, $dbname);
-if(!$conexao){
-    die("Houve erro: ".mysqli_connect_error());
+$conexao = mysqli_connect($servidor, $usuario, $senha, $dbname);
+if (!$conexao) {
+    die("Houve erro: " . mysqli_connect_error());
 }
 
-// Define o conjunto de caracteres para utf8
-mysqli_set_charset($conexao, "utf8");
+mysqli_set_charset($conexao, $charset);
 
 ?>
