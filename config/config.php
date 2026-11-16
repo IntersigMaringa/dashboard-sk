@@ -8,7 +8,10 @@ if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
 // 1. Inclui a conexão com o banco de dados.
 //    É necessário para buscar as configurações.
 include __DIR__ . '/conexao.php';
-$empresa_nome = "CABEAR SOLUÇÕES";
+require_once __DIR__ . '/db_credentials.php';
+
+$config_ini = db_credentials();
+$empresa_nome = $config_ini['empresa']['nome'] ?? 'SK';
 
 // 2. Define o ID fixo da configuração
 $config_id = 1;

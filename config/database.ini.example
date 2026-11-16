@@ -15,17 +15,7 @@ pass = "SUA_SENHA"
 name = "intersig"
 charset = "utf8"
 
-[fluxo]
-host = "SEU_HOST_FLUXO"
-user = "SEU_USUARIO"
-pass = "SUA_SENHA"
-charset = "utf8mb4"
+# Nome exibido no sistema (títulos, cabeçalhos e relatórios)
+[empresa]
+nome = "Nome da Empresa"
 
-[fluxo_dbs]
-vendas_mesquita = "mesquita_vendas"
-financeiro_mesquita = "mesquita_financeiro"
-financeiro_jr = "jr_financeiro"
-publico_mesquita = "mesquita_publico"
-estoque_mesquita = "mesquita_estoque"
-vendas_jr = "jr_vendas"
-publico_jr = "jr_publico"
